@@ -24,7 +24,7 @@ request:
     - name: baseUrl
       value: http://localhost:5020/local
     - name: accessToken
-      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMyIsImNhbXB1c19hZG1pbl9pZCI6MywiaW5zdGl0dXRpb25faWQiOjMsInJvbGUiOiJDQU1QVVNfQURNSU4iLCJlbWFpbCI6ImtzaGl0aWpha2Fyc2hAZ21haWwuY29tIiwiaWF0IjoxNzg4NTM3MTczLCJleHAiOjE3ODkxNDE5NzN9.5YGMPvtCq-WBu0y_XaqmGEZQlCvL_JZoOoVoLbQhW5w
+      value: ""
     - name: jobId
       value: "1"
   scripts:
@@ -58,13 +58,117 @@ request:
 
 docs:
   content: |-
-    All HTTP endpoints of the `jobs` service, generated from serverless.yml.
+    # CampusMesh — Jobs service
 
-    **Choosing a target** — nothing is hardcoded per request. Set the `env` collection variable to `local` (default) or `dev`; a collection pre-request script resolves it into `{{baseUrl}}`. To point somewhere else entirely, set `baseUrl` in a Postman Environment and it wins over `env`.
+    The student-facing job catalogue. Every HTTP endpoint of the `jobs` microservice, generated from its `serverless.yml`.
 
-    `local` expects `npm start` (serverless-offline, port 5020, stage `local`).
+    Jobs are scraped by **jobmesh** into S3, pushed into the MySQL table `master_agg_jobs` by the upsert job, and read by the endpoints below. This service never submits an application to Greenhouse or Lever — it records the click and hands the student the employer's own URL.
 
-    Set `accessToken` (token from the **user** service). Auth defaults to Bearer {{accessToken}}; public and ingest requests override this to No Auth.
+    ---
+
+    ## Setup — two variables
+
+    **1.** `env` — which server to hit. Set it to `local` (default) or `dev`.
+
+    A collection pre-request script turns it into `{{baseUrl}}`, so no request has a hardcoded URL:
+
+    | `env` | Resolves to |
+    | --- | --- |
+    | `local` | `http://localhost:5020/local` |
+    | `dev` | `https://0bbdztbnb0.execute-api.us-east-1.amazonaws.com/dev` |
+
+    `local` needs the service running — `npm start` in the `jobs` repo (serverless-offline, port 5020).
+
+    To point somewhere else, set `baseUrl` in a Bruno **Environment**; it wins over `env`.
+
+    **2.** `accessToken` — a JWT from the **user** service. Required by the `Student (JWT)` folder. Leave it blank in the collection and set it in an Environment instead (see *Tokens* at the bottom).
+
+    ---
+
+    ## What's in here
+
+    | Folder | Auth | Contents |
+    | --- | --- | --- |
+    | **Health** | none | Liveness, Swagger JSON, Swagger UI |
+    | **Public (no JWT)** | none | Browse the catalogue without logging in |
+    | **Student (JWT)** | Bearer | Browse, apply, bookmark, and read your own history |
+    | **Ingest** | none | S3 → MySQL upsert. **Not ours — see below.** |
+
+    Auth is set once on the collection (`Bearer {{accessToken}}`). Public and Ingest requests override it to No Auth, so they work with an empty token.
+
+    ---
+
+    ## Filters
+
+    Five requests take the same eight filters. They are saved **disabled** — tick the ones you want in the Params tab.
+
+    | Param | Accepts | Notes |
+    | --- | --- | --- |
+    | `search` | any text | Matches title, company name, or city |
+    | `address` | `Berlin`, `Berlin, DE`, `Berlin, BE, DE` | Also accepts `Fully remote`, `Hybrid`, `On-site` |
+    | `country` | `US` or `IN` | Anything else is ignored, not rejected |
+    | `remote` | `1` or `true` | Remote jobs only |
+    | `employmentType` | `full_time`, `part_time`, `internship`, `contract`, `fellowship` | Exact match |
+    | `salaryMin` / `salaryMax` | a number | Yearly salaries only |
+    | `postedAt` | `24h`, `7d`, `30d` | Anything else is ignored |
+
+    They work on **List jobs**, **List jobs (public)**, **Similar jobs**, **My applications**, and **My bookmarks**. On the last three the filters apply to the job attached to each bookmark or application.
+
+    ### Paging
+
+    `limit` is how many results you get, `offset` is how many to skip.
+
+    ```
+    ?limit=20&offset=0    page 1
+    ?limit=20&offset=20   page 2
+    ?limit=20&offset=40   page 3
+    ```
+
+    Default 20, maximum 100. **Similar jobs** is the exception — 5 by default, 20 maximum, because it is a strip on a detail page rather than a list.
+
+    `total` in the response is the count of *all* matching jobs, not the count on your page. Use it to work out how many pages exist.
+
+    ---
+
+    ## Things that will surprise you
+
+    `search` **is slow.** 16–22 seconds against `dev`, and the API gateway gives up at 29. It matches substrings, so it cannot use a database index and scans all \~49,000 rows. A fix is planned. (need to be discussed with dheeraj)
+
+    `search` **cares about word order.** It matches one continuous piece of text, so `software engineer` finds "Senior Software Engineer" but `engineer software` finds nothing.
+
+    `search` **matches inside words.** `ai` matches "Retail" and "Trainee". Two-letter searches are close to useless.
+
+    **Bad filter values are ignored, not rejected.** A typo like `employmentType=fulltime` returns zero results with a `200`, not an error.
+
+    **Salary filters only see yearly salaries.** Jobs paid hourly or monthly are excluded entirely, not converted.
+
+    **Closed jobs vanish from your history.** *My applications* and *My bookmarks* only return jobs that are still `active`. When a posting closes it disappears from those lists and `total` drops. The record is still in the database — the API just stops returning it.
+
+    **Seniority is not exposed.** The column exists in the database but is never returned to students and cannot be filtered on.
+
+    ---
+
+    ## Ingest — leave it alone
+
+    The **Upsert jobs (S3 → MySQL)** request belongs to the data/scraping team. It is documented here only so the collection matches the service.
+
+    **Do not run it.** It writes to the shared `master_agg_jobs` table, processes real scrape batches, and moves the ingest checkpoints. Firing it by hand can skip a batch for everyone.
+
+    Nothing in the student-facing work needs it. If you think you need it, ask the data team first.
+
+    ---
+
+    ## Tokens
+
+    Do not paste your JWT into the collection's `accessToken` variable — it gets written into `opencollection.yml`, which is tracked by git and would be committed.
+
+    Put it in a Bruno **Environment** instead. The `environments/` folder is git-ignored, so tokens stay on your machine.
+
+    ---
+
+    ## Files, not a database
+
+    This collection is a folder of plain files, one `.yml` per request, tracked by git. Change a request in Bruno and the file changes; `git diff` shows exactly which endpoint you touched.
   type: text/markdown
 bundled: false
 extensions:

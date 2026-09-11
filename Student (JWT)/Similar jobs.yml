@@ -5,12 +5,49 @@ info:
 
 http:
   method: GET
-  url: "{{baseUrl}}/jobs/{{jobId}}/similar?limit=5"
+  url: "{{baseUrl}}/jobs/{{jobId}}/similar?limit=5&search=us"
   params:
     - name: limit
       value: "5"
       type: query
-      description: Default 5, capped at 20.
+    - name: search
+      value: us
+      type: query
+    - name: address
+      value: Berlin
+      type: query
+      description: One token = match any of city/state/country. 'City, Country' or 'City, State, Country' splits on commas. Also accepts 'Fully remote' / 'Hybrid' / 'On-site'.
+      disabled: true
+    - name: country
+      value: US
+      type: query
+      description: US or IN only. Anything else is ignored.
+      disabled: true
+    - name: remote
+      value: "1"
+      type: query
+      description: "'1' or 'true' => workplace_type = remote."
+      disabled: true
+    - name: employmentType
+      value: internship
+      type: query
+      description: full_time | part_time | internship | contract | fellowship. Exact match, not validated.
+      disabled: true
+    - name: salaryMin
+      value: "50000"
+      type: query
+      description: Yearly salaries only (salary_period = 'year').
+      disabled: true
+    - name: salaryMax
+      value: "200000"
+      type: query
+      description: Yearly salaries only.
+      disabled: true
+    - name: postedAt
+      value: 7d
+      type: query
+      description: 24h | 7d | 30d. Anything else is ignored.
+      disabled: true
   auth: inherit
 
 settings:
@@ -20,4 +57,115 @@ settings:
   maxRedirects: 5
   forwardAuthorizationHeader: false
 
-docs: Same company, excluding this job. Ranked by matching employment_type, then workplace_type, then posted_at DESC. No description field.
+examples:
+  - name: similar job example
+    request:
+      url: "{{baseUrl}}/jobs/{{jobId}}/similar?limit=5&search=us"
+      method: GET
+      params:
+        - name: limit
+          value: "5"
+          type: query
+        - name: search
+          value: us
+          type: query
+        - name: address
+          value: Berlin
+          type: query
+          description: One token = match any of city/state/country. 'City, Country' or 'City, State, Country' splits on commas. Also accepts 'Fully remote' / 'Hybrid' / 'On-site'.
+          disabled: true
+        - name: country
+          value: US
+          type: query
+          description: US or IN only. Anything else is ignored.
+          disabled: true
+        - name: remote
+          value: "1"
+          type: query
+          description: "'1' or 'true' => workplace_type = remote."
+          disabled: true
+        - name: employmentType
+          value: internship
+          type: query
+          description: full_time | part_time | internship | contract | fellowship. Exact match, not validated.
+          disabled: true
+        - name: salaryMin
+          value: "50000"
+          type: query
+          description: Yearly salaries only (salary_period = 'year').
+          disabled: true
+        - name: salaryMax
+          value: "200000"
+          type: query
+          description: Yearly salaries only.
+          disabled: true
+        - name: postedAt
+          value: 7d
+          type: query
+          description: 24h | 7d | 30d. Anything else is ignored.
+          disabled: true
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: access-control-allow-headers
+          value: Content-Type, Authorization
+        - name: access-control-allow-methods
+          value: GET, POST, PUT, DELETE, OPTIONS
+        - name: content-type
+          value: application/json; charset=utf-8
+        - name: vary
+          value: origin
+        - name: access-control-expose-headers
+          value: WWW-Authenticate,Server-Authorization
+        - name: cache-control
+          value: no-cache
+        - name: content-length
+          value: "544"
+        - name: accept-ranges
+          value: bytes
+        - name: date
+          value: Fri, 11 Sep 2026 08:15:07 GMT
+        - name: connection
+          value: keep-alive
+        - name: keep-alive
+          value: timeout=5
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "message": "Similar jobs.",
+            "data": {
+              "jobs": [
+                {
+                  "id": "7",
+                  "title": "Industrial Engineering Internship",
+                  "company": {
+                    "name": "United Launch Alliance",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Cape Canaveral",
+                    "state": null,
+                    "country": "US"
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://4dayweek.io/job/industrial-engineering-internship-at-united-launch-alliance-707bfae4",
+                  "source": "4dayweek",
+                  "postedAt": "2026-09-08T12:53:55.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                }
+              ],
+              "limit": 5
+            }
+          }
+
+docs: |-
+  Same company, excluding this job. Ranked by matching employment_type, then workplace_type, then posted_at DESC. No description field.
+
+  All 8 list filters are accepted here and applied to the joined job (same semantics as GET /jobs/list).

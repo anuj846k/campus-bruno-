@@ -14,4 +14,64 @@ settings:
   maxRedirects: 5
   forwardAuthorizationHeader: false
 
+examples:
+  - name: get job by ID, public example
+    request:
+      url: "{{baseUrl}}/jobs/listById-public/{{jobId}}"
+      method: GET
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: access-control-allow-headers
+          value: Content-Type, Authorization
+        - name: access-control-allow-methods
+          value: GET, POST, PUT, DELETE, OPTIONS
+        - name: content-type
+          value: application/json; charset=utf-8
+        - name: vary
+          value: origin,accept-encoding
+        - name: access-control-expose-headers
+          value: WWW-Authenticate,Server-Authorization
+        - name: cache-control
+          value: no-cache
+        - name: date
+          value: Fri, 11 Sep 2026 08:12:54 GMT
+        - name: connection
+          value: keep-alive
+        - name: keep-alive
+          value: timeout=5
+        - name: transfer-encoding
+          value: chunked
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "message": "Job details.",
+            "data": {
+              "job": {
+                "id": "1",
+                "title": "Industrial Hygienist Internship",
+                "company": {
+                  "name": "United Launch Alliance",
+                  "domain": null
+                },
+                "location": {
+                  "city": "Decatur",
+                  "state": null,
+                  "country": "US"
+                },
+                "workplaceType": "onsite",
+                "salary": null,
+                "employmentType": "internship",
+                "experienceYearsMin": null,
+                "primaryUrl": "https://4dayweek.io/job/industrial-hygienist-internship-at-united-launch-alliance-b967f727",
+                "source": "4dayweek",
+                "postedAt": "2026-09-08T12:53:55.000Z",
+                "description": "<p>**Requisition ID:** 2140</p><p>**Standard Weekly Hours:** 40.00</p><p>**Location:** ULA - Decatur</p><p>**At ULA, success comes through the efforts of a strong, united team.**</p><p>Thanks for your interest in United Launch Alliance, the world's most experienced and reliable space launch company! Successfully launching more than 150 consecutive missions doesn’t just happen.  It’s credit to the commitment of our 2,500 team members and the systems and processes we use to pull them together.</p><p>As a ULA intern, you’ll gain real-world work experience and exposure to life at the nation’s premier space launch company. Together, our unshakable unity yields stronger solutions and better results as we carry out our mission to save lives, explore the universe, and connect the world. Our team is excited to meet you!</p><p>### **Job Overview &amp; Responsibilities**</p><p>As an Industrial Hygienist Intern at United Launch Alliance, you'll gain hands-on experience and will have the opportunity to:</p><p>be responsible for promoting and maintaining a safe and healthy work environment by identifying, evaluating, and controlling workplace hazards. You will play a crucial role in ensuring compliance with federal and state health and safety regulations.</p><p>Industrial Hygienist Responsibilities &amp; Duties</p><ul><li>Conduct workplace hazard assessments and develop plans to control or eliminate hazards.</li><li>Conduct air monitoring, noise monitoring, and chemical exposure assessments.</li><li>Educate employees on health and safety issues and conduct regular safety audits.</li><li>Interpret and apply federal and state regulations related to industrial hygiene and environmental health and safety.</li><li>Collaborate with other departments, such as engineering and maintenance, to implement solutions to health and safety issues.</li><li>Prepare reports, maintain records, and communicate findings to management and employees.</li></ul><p>Interns may perform and/or participate in additional activities/events which help them build a strong network within the ULA community and with fellow interns!</p><p>**Required Education**</p><ul><li>At minimum completed Sophomore year of college or university by the time of the summer internship assignment.</li></ul><ul><li>High School/GED</li></ul><p>**Basic Qualifications**</p><ul><li>Must have a minimum college GPA of 3.00 on a 4.00 scale at the time of application; cumulative, no rounding. NOTE: An unofficial transcript is required if you are invited for an interview. We recommend you upload it to your profile when you apply.</li><li>Must have a valid driver’s license and motorized vehicle transportation if assigned an internship in Alabama; For Denver, Colorado and Washington, DC, motorized transportation is recommended.</li></ul><p>**Role Specific Qualifications**</p><ul><li>Working towards bachelor’s degree in industrial Hygiene, Environmental Health and Safety, or related field.</li><li>Knowledge of OSHA regulations and guidelines</li><li>Proficiency in using industrial hygiene monitoring equipment</li><li>Strong analytical and problem-solving skills</li><li>Excellent communication and interpersonal skills.</li><li>Ability to work independently and in a team environment.</li><li>Strong problem-solving and analytical skills.</li><li>Must have plans to be enrolled in classes during Fall Semester 2027.</li><li>Ability to work full-time for a minimum of 10 weeks during the summer of 2027.</li><li>Proficient with Microsoft Office Suite (Word, Excel, PowerPoint, Outlook, SharePoint).</li><li>Effective presentation, written communication, and verbal communication skills.</li><li>Must be able to complete an internship at any of the below ULA's locations:</li><li>Decatur, AL</li></ul><p>**About ULA**</p><p>Because we understand launch success comes through the collective efforts of a team, we seek the best to join us. We value ethics, ingenuity, engagement and professional development for employees at all levels.</p><p>We offer our interns competitive pay and benefits including:</p><ul><li>An opportunity to participate in designing, building, and launching of ULA’s sports rockets</li><li>Flexible work environments</li><li>Numerous social and networking opportunities</li><li>For those who qualify, a living stipend may be available</li></ul><p>Additionally, most salaried ULA team members work a \"9/80 schedule,\" meaning they enjoy every other Friday off.</p><p>**Security Clearance / International Traffic In Arms Regulations (ITAR).**This position requires use of information which is subject to the International Traffic In Arms Regulations (ITAR). Therefore, all applicants must be U.S. Persons as defined in ITAR 22 CFR 120.62 (e.g., U.S. Citizen, Lawful Permanent Resident (Green Card holder) or protected individual. See 8 U.S.C. 1101(a)(20) and 8 U.S.C. 1324b(a)(3) for additional information).</p><p>**ULA is an Equal Opportunity Employer.**All qualified applicants will receive consideration for employment.</p><p>**ULA is a participant in the federal E-Verify Program.** Posters in PDF format pertaining to this program can be accessed by clicking on the links identified below. E-Verify Participation poster ( [English](https://www.ulalaunch.com/docs/default-source/default-document-library/e-verify_poster_v08-08_standard_english.pdf) / [Spanish](https://www.ulalaunch.com/docs/default-source/default-document-library/everifyposterspanish1.pdf)) and Right to Work Poster ( [English](https://www.ulalaunch.com/docs/default-source/default-document-library/oscrighttoworkposter-english.pdf) / [Spanish](https://www.ulalaunch.com/docs/default-source/default-document-library/righttoworkspanishposter.pdf)).</p><p>**Colorado Equal Pay for Equal Work Act** requires covered employees to follow a post selection notification process. A hired candidate may opt out of this process by notifying the hiring manager in writing at the time the offer is accepted.</p>"
+              }
+            }
+          }
+
 docs: Includes description. 404 when the job is not status = active.

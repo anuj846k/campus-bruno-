@@ -24,4 +24,77 @@ settings:
   maxRedirects: 5
   forwardAuthorizationHeader: false
 
+examples:
+  - name: apply to job example
+    request:
+      url: "{{baseUrl}}/jobs/apply"
+      method: POST
+      headers:
+        - name: Content-Type
+          value: application/json
+      body:
+        type: json
+        data: |-
+          {
+            "jobId": {{jobId}}
+          }
+    response:
+      status: 201
+      statusText: Created
+      headers:
+        - name: access-control-allow-headers
+          value: Content-Type, Authorization
+        - name: access-control-allow-methods
+          value: GET, POST, PUT, DELETE, OPTIONS
+        - name: content-type
+          value: application/json; charset=utf-8
+        - name: vary
+          value: origin
+        - name: access-control-expose-headers
+          value: WWW-Authenticate,Server-Authorization
+        - name: cache-control
+          value: no-cache
+        - name: content-length
+          value: "597"
+        - name: date
+          value: Fri, 11 Sep 2026 08:16:19 GMT
+        - name: connection
+          value: keep-alive
+        - name: keep-alive
+          value: timeout=5
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "message": "Applied successfully.",
+            "data": {
+              "applicationId": 10,
+              "jobId": "1",
+              "status": "applied",
+              "appliedAt": "2026-09-11T08:16:19.123Z",
+              "job": {
+                "id": "1",
+                "title": "Industrial Hygienist Internship",
+                "company": {
+                  "name": "United Launch Alliance",
+                  "domain": null
+                },
+                "location": {
+                  "city": "Decatur",
+                  "state": null,
+                  "country": "US"
+                },
+                "workplaceType": "onsite",
+                "salary": null,
+                "employmentType": "internship",
+                "experienceYearsMin": null,
+                "primaryUrl": "https://4dayweek.io/job/industrial-hygienist-internship-at-united-launch-alliance-b967f727",
+                "source": "4dayweek",
+                "postedAt": "2026-09-08T12:53:55.000Z",
+                "applied": true
+              }
+            }
+          }
+
 docs: CampusMesh click ledger only — this does NOT submit to Greenhouse/Lever. The client opens primaryUrl afterwards. jobId must be an integer >= 1.

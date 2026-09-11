@@ -63,4 +63,497 @@ settings:
   maxRedirects: 5
   forwardAuthorizationHeader: false
 
+examples:
+  - name: list jobs public example
+    request:
+      url: "{{baseUrl}}/jobs/list-public?limit=20&offset=0"
+      method: GET
+      params:
+        - name: limit
+          value: "20"
+          type: query
+          description: Default 20, capped at 100.
+        - name: offset
+          value: "0"
+          type: query
+          description: Default 0.
+        - name: search
+          value: engineer
+          type: query
+          description: Substring LIKE over title, company_name, city. Word order matters. SLOW (16-22s).
+          disabled: true
+        - name: address
+          value: Berlin
+          type: query
+          description: One token = match any of city/state/country. 'City, Country' or 'City, State, Country' splits on commas. Also accepts the workplace labels 'Fully remote' / 'Hybrid' / 'On-site'.
+          disabled: true
+        - name: country
+          value: US
+          type: query
+          description: US or IN only. Anything else is ignored.
+          disabled: true
+        - name: remote
+          value: "1"
+          type: query
+          description: "'1' or 'true' => workplace_type = remote."
+          disabled: true
+        - name: employmentType
+          value: internship
+          type: query
+          description: full_time | part_time | internship | contract | fellowship. Exact match, not validated.
+          disabled: true
+        - name: salaryMin
+          value: "50000"
+          type: query
+          description: Yearly salaries only (salary_period = 'year').
+          disabled: true
+        - name: salaryMax
+          value: "200000"
+          type: query
+          description: Yearly salaries only.
+          disabled: true
+        - name: postedAt
+          value: 7d
+          type: query
+          description: 24h | 7d | 30d. Anything else is ignored.
+          disabled: true
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: access-control-allow-headers
+          value: Content-Type, Authorization
+        - name: access-control-allow-methods
+          value: GET, POST, PUT, DELETE, OPTIONS
+        - name: content-type
+          value: application/json; charset=utf-8
+        - name: vary
+          value: origin,accept-encoding
+        - name: access-control-expose-headers
+          value: WWW-Authenticate,Server-Authorization
+        - name: cache-control
+          value: no-cache
+        - name: date
+          value: Fri, 11 Sep 2026 08:12:10 GMT
+        - name: connection
+          value: keep-alive
+        - name: keep-alive
+          value: timeout=5
+        - name: transfer-encoding
+          value: chunked
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "message": "Jobs list.",
+            "data": {
+              "jobs": [
+                {
+                  "id": "44835",
+                  "title": "Junior Integration Analyst",
+                  "company": {
+                    "name": "Luxoft",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": null,
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": null,
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://career.luxoft.com/jobs/junior-integration-analyst-26550",
+                  "source": "luxoft",
+                  "postedAt": "2026-09-10T00:00:00.000Z"
+                },
+                {
+                  "id": "60784",
+                  "title": "Range Scheduler / Junior Program Manager",
+                  "company": {
+                    "name": "Systems Application & Technologies (SA-TECH)",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Dugway Proving Ground",
+                    "state": "UT",
+                    "country": "US"
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": null,
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4491717",
+                  "source": "paylocity",
+                  "postedAt": "2026-09-09T21:38:00.000Z"
+                },
+                {
+                  "id": "61007",
+                  "title": "Service Technician/Diesel Mechanic",
+                  "company": {
+                    "name": "JX Enterprises",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Green Bay",
+                    "state": "WI",
+                    "country": "US"
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": null,
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4491563",
+                  "source": "paylocity",
+                  "postedAt": "2026-09-09T21:10:52.000Z"
+                },
+                {
+                  "id": "60994",
+                  "title": "Technical Operations Intern - Hardware & Logistics",
+                  "company": {
+                    "name": "Palladyne AI",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Salt Lake City",
+                    "state": "UT",
+                    "country": "US"
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4491337",
+                  "source": "paylocity",
+                  "postedAt": "2026-09-09T20:37:38.000Z"
+                },
+                {
+                  "id": "60693",
+                  "title": "Entry-Level Laboratory Technician, TCLP (Tuesday - Saturday 6:00 AM - 2:00 PM)",
+                  "company": {
+                    "name": "Sterling Labs",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "O'Hare",
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": null,
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4402197",
+                  "source": "paylocity",
+                  "postedAt": "2026-09-09T20:37:04.000Z"
+                },
+                {
+                  "id": "60694",
+                  "title": "Entry-Level Laboratory Technician, Wet Chem - FOG (Sun-Thur 10:00 AM - 6:30 PM)",
+                  "company": {
+                    "name": "Sterling Labs",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "O'Hare",
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": null,
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4399200",
+                  "source": "paylocity",
+                  "postedAt": "2026-09-09T20:36:39.000Z"
+                },
+                {
+                  "id": "60589",
+                  "title": "Experienced Outpatient Child and Family Therapist",
+                  "company": {
+                    "name": "Carolina Pediatric Therapy",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Brevard",
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": null,
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4229510",
+                  "source": "paylocity",
+                  "postedAt": "2026-09-09T20:34:14.000Z"
+                },
+                {
+                  "id": "60590",
+                  "title": "Experienced Outpatient Child and Family Therapist",
+                  "company": {
+                    "name": "Carolina Pediatric Therapy",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Asheville",
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": null,
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4229467",
+                  "source": "paylocity",
+                  "postedAt": "2026-09-09T20:34:11.000Z"
+                },
+                {
+                  "id": "60695",
+                  "title": "Software Engineer - Intern (Summer 2027)",
+                  "company": {
+                    "name": "Gravitate",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Dallas",
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4491272",
+                  "source": "paylocity",
+                  "postedAt": "2026-09-09T20:29:42.000Z"
+                },
+                {
+                  "id": "60696",
+                  "title": "Associate (Summer 2027)",
+                  "company": {
+                    "name": "Gravitate",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Dallas",
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": null,
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4491143",
+                  "source": "paylocity",
+                  "postedAt": "2026-09-09T20:14:06.000Z"
+                },
+                {
+                  "id": "60697",
+                  "title": "Software Engineer - Entry Level (Summer 2027)",
+                  "company": {
+                    "name": "Gravitate",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Dallas",
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": null,
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4491069",
+                  "source": "paylocity",
+                  "postedAt": "2026-09-09T20:04:51.000Z"
+                },
+                {
+                  "id": "60871",
+                  "title": "Desktop Support in Largo, Florida",
+                  "company": {
+                    "name": "Virtual Service Operations",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "LARGO",
+                    "state": "FL",
+                    "country": "US"
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": null,
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/3538145",
+                  "source": "paylocity",
+                  "postedAt": "2026-09-09T19:34:10.000Z"
+                },
+                {
+                  "id": "60887",
+                  "title": "Inspector",
+                  "company": {
+                    "name": "ARCXIS",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Snohomish",
+                    "state": "WA",
+                    "country": "US"
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": null,
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4490691",
+                  "source": "paylocity",
+                  "postedAt": "2026-09-09T19:11:02.000Z"
+                },
+                {
+                  "id": "60623",
+                  "title": "athenaOne Applications Systems Analyst- Junior",
+                  "company": {
+                    "name": "Nevada Heart and Vascular Center",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Worker - N/A",
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "remote",
+                  "salary": null,
+                  "employmentType": null,
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4471784",
+                  "source": "paylocity",
+                  "postedAt": "2026-09-09T19:08:00.000Z"
+                },
+                {
+                  "id": "61005",
+                  "title": "Service Technician/Diesel Mechanic",
+                  "company": {
+                    "name": "JX Enterprises",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Clare",
+                    "state": "MI",
+                    "country": "US"
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": null,
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4490591",
+                  "source": "paylocity",
+                  "postedAt": "2026-09-09T18:58:03.000Z"
+                },
+                {
+                  "id": "60853",
+                  "title": "2027 Spring Assurance Intern",
+                  "company": {
+                    "name": "McKonly & Asbury",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Lancaster",
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4490277",
+                  "source": "paylocity",
+                  "postedAt": "2026-09-09T18:08:42.000Z"
+                },
+                {
+                  "id": "60854",
+                  "title": "2027 Spring Assurance Intern",
+                  "company": {
+                    "name": "McKonly & Asbury",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Bloomsburg",
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4490271",
+                  "source": "paylocity",
+                  "postedAt": "2026-09-09T18:07:53.000Z"
+                },
+                {
+                  "id": "60849",
+                  "title": "2027 Spring Assurance Intern",
+                  "company": {
+                    "name": "McKonly & Asbury",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Philadelphia",
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4490258",
+                  "source": "paylocity",
+                  "postedAt": "2026-09-09T18:06:06.000Z"
+                },
+                {
+                  "id": "60850",
+                  "title": "2027 Spring Assurance Intern",
+                  "company": {
+                    "name": "McKonly & Asbury",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Camp Hill",
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4490247",
+                  "source": "paylocity",
+                  "postedAt": "2026-09-09T18:05:02.000Z"
+                },
+                {
+                  "id": "60855",
+                  "title": "2027 Spring Tax Internship",
+                  "company": {
+                    "name": "McKonly & Asbury",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Bloomsburg",
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4490216",
+                  "source": "paylocity",
+                  "postedAt": "2026-09-09T18:01:37.000Z"
+                }
+              ],
+              "total": 49034,
+              "limit": 20,
+              "offset": 0
+            }
+          }
+
 docs: Same query params as /jobs/list. Response omits the user-specific applied/bookmarked flags.
