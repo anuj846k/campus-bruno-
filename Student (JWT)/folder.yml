@@ -1,0 +1,7 @@
+info:
+  name: Student (JWT)
+  type: folder
+  seq: 3
+
+request:
+  auth: inherit

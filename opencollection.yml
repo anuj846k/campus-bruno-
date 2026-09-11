@@ -1,0 +1,63 @@
+opencollection: 1.0.0
+
+info:
+  name: CampusMesh — Jobs service
+
+request:
+  auth:
+    type: bearer
+    token: "{{accessToken}}"
+  variables:
+    - name: env
+      value: local
+    - name: baseUrl
+      value: ""
+    - name: accessToken
+      value: ""
+    - name: jobId
+      value: "1"
+  scripts:
+    - type: before-request
+      code: |-
+        // baseUrl is resolved here, never hardcoded on a request.
+        //
+        // Precedence:
+        //   1. a `baseUrl` set in the active Postman Environment  (wins outright)
+        //   2. the `env` collection variable -> TARGETS below
+        //
+        // Ports/stages mirror jobs/serverless.yml:
+        //   serverless-offline httpPort 5020, `npm start` runs --stage local
+        const TARGETS = {
+          local: 'http://localhost:5020/local',
+          dev:   'https://0bbdztbnb0.execute-api.us-east-1.amazonaws.com/dev',
+        };
+
+        if (bru.getEnvVar('baseUrl')) {
+          bru.setCollectionVar('baseUrl', bru.getEnvVar('baseUrl'));
+        } else {
+          const env = (bru.getCollectionVar('env') || 'local').trim();
+          const url = TARGETS[env];
+          if (!url) {
+            throw new Error(`Unknown env '${env}'. Use one of: ${Object.keys(TARGETS).join(', ')}`);
+          }
+          bru.setCollectionVar('baseUrl', url);
+        }
+
+        console.log('baseUrl ->', bru.getCollectionVar('baseUrl'));
+
+docs:
+  content: |-
+    All HTTP endpoints of the `jobs` service, generated from serverless.yml.
+
+    **Choosing a target** — nothing is hardcoded per request. Set the `env` collection variable to `local` (default) or `dev`; a collection pre-request script resolves it into `{{baseUrl}}`. To point somewhere else entirely, set `baseUrl` in a Postman Environment and it wins over `env`.
+
+    `local` expects `npm start` (serverless-offline, port 5020, stage `local`).
+
+    Set `accessToken` (token from the **user** service). Auth defaults to Bearer {{accessToken}}; public and ingest requests override this to No Auth.
+  type: text/markdown
+bundled: false
+extensions:
+  bruno:
+    ignore:
+      - node_modules
+      - .git

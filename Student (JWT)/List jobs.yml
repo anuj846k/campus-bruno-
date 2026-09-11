@@ -1,0 +1,65 @@
+info:
+  name: List jobs
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{baseUrl}}/jobs/list?limit=20&offset=0"
+  params:
+    - name: limit
+      value: "20"
+      type: query
+      description: Default 20, capped at 100.
+    - name: offset
+      value: "0"
+      type: query
+      description: Default 0.
+    - name: search
+      value: engineer
+      type: query
+      description: Substring LIKE over title, company_name, city. Word order matters. SLOW (16-22s).
+      disabled: true
+    - name: address
+      value: Berlin
+      type: query
+      description: One token = match any of city/state/country. 'City, Country' or 'City, State, Country' splits on commas. Also accepts 'Fully remote' / 'Hybrid' / 'On-site'.
+      disabled: true
+    - name: country
+      value: US
+      type: query
+      description: US or IN only.
+      disabled: true
+    - name: remote
+      value: "1"
+      type: query
+      description: "'1' or 'true' => workplace_type = remote."
+      disabled: true
+    - name: employmentType
+      value: internship
+      type: query
+      description: full_time | part_time | internship | contract | fellowship.
+      disabled: true
+    - name: salaryMin
+      value: "50000"
+      type: query
+      disabled: true
+    - name: salaryMax
+      value: "200000"
+      type: query
+      disabled: true
+    - name: postedAt
+      value: 7d
+      type: query
+      description: 24h | 7d | 30d.
+      disabled: true
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
+
+docs: Returns { jobs, total, limit, offset }. Each job carries applied / bookmarked for the caller. status = active only; seniority is never returned.

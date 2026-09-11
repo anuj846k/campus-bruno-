@@ -1,0 +1,37 @@
+info:
+  name: Upsert jobs (S3 to MySQL)
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{baseUrl}}/jobs/upsert"
+  headers:
+    - name: Content-Type
+      value: application/json
+  params:
+    - name: sourceFilter
+      value: greenhouse
+      type: query
+      description: Used only when the body is empty.
+      disabled: true
+  body:
+    type: json
+    data: |-
+      {
+        "sourceFilter": "lever,greenhouse"
+      }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
+
+docs: |-
+  No JWT. Reads s3://{S3_BUCKET_NAME}/{STAGE}/normalized/ and writes master_agg_jobs.
+
+  Processes ONE pending .jsonl batch per call — keep calling until data.done is true. An empty body processes every source. Lambda timeout 900s.
+
+  Job records are read from the S3 files, not from this body: seniority / employmentType live in the JSONL, there is no way to pass them here.
