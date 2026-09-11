@@ -5,21 +5,17 @@ info:
 
 http:
   method: GET
-  url: "{{baseUrl}}/jobs/list?limit=20&offset=0"
+  url: "{{baseUrl}}/jobs/list?limit=20&offset=0&search=python"
   params:
     - name: limit
       value: "20"
       type: query
-      description: Default 20, capped at 100.
     - name: offset
       value: "0"
       type: query
-      description: Default 0.
     - name: search
-      value: engineer
+      value: python
       type: query
-      description: Substring LIKE over title, company_name, city. Word order matters. SLOW (16-22s).
-      disabled: true
     - name: address
       value: Berlin
       type: query
@@ -61,5 +57,552 @@ settings:
   followRedirects: true
   maxRedirects: 5
   forwardAuthorizationHeader: false
+
+examples:
+  - name: List jobs example
+    request:
+      url: "{{baseUrl}}/jobs/list?limit=20&offset=0&search=python"
+      method: GET
+      params:
+        - name: limit
+          value: "20"
+          type: query
+        - name: offset
+          value: "0"
+          type: query
+        - name: search
+          value: python
+          type: query
+        - name: address
+          value: Berlin
+          type: query
+          description: One token = match any of city/state/country. 'City, Country' or 'City, State, Country' splits on commas. Also accepts 'Fully remote' / 'Hybrid' / 'On-site'.
+          disabled: true
+        - name: country
+          value: US
+          type: query
+          description: US or IN only.
+          disabled: true
+        - name: remote
+          value: "1"
+          type: query
+          description: "'1' or 'true' => workplace_type = remote."
+          disabled: true
+        - name: employmentType
+          value: internship
+          type: query
+          description: full_time | part_time | internship | contract | fellowship.
+          disabled: true
+        - name: salaryMin
+          value: "50000"
+          type: query
+          disabled: true
+        - name: salaryMax
+          value: "200000"
+          type: query
+          disabled: true
+        - name: postedAt
+          value: 7d
+          type: query
+          description: 24h | 7d | 30d.
+          disabled: true
+    response:
+      status: 200
+      statusText: OK
+      headers:
+        - name: access-control-allow-headers
+          value: Content-Type, Authorization
+        - name: access-control-allow-methods
+          value: GET, POST, PUT, DELETE, OPTIONS
+        - name: content-type
+          value: application/json; charset=utf-8
+        - name: vary
+          value: origin,accept-encoding
+        - name: access-control-expose-headers
+          value: WWW-Authenticate,Server-Authorization
+        - name: cache-control
+          value: no-cache
+        - name: date
+          value: Fri, 11 Sep 2026 07:50:42 GMT
+        - name: connection
+          value: keep-alive
+        - name: keep-alive
+          value: timeout=5
+        - name: transfer-encoding
+          value: chunked
+      body:
+        type: json
+        data: |-
+          {
+            "success": true,
+            "message": "Jobs list.",
+            "data": {
+              "jobs": [
+                {
+                  "id": "35553",
+                  "title": "Junior AI Engineer - Backend Python",
+                  "company": {
+                    "name": "JuiceLabs AI",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Bangalore",
+                    "state": "Karnataka",
+                    "country": "IN"
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": "full_time",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://internshala.com/job/detail/fresher-junior-ai-engineer-backend-python-job-in-bangalore-at-juicelabs-ai1788914657",
+                  "source": "internshala",
+                  "postedAt": "2026-09-09T00:00:00.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                },
+                {
+                  "id": "33095",
+                  "title": "Python Development",
+                  "company": {
+                    "name": "Amrata",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Delhi",
+                    "state": "Delhi",
+                    "country": "IN"
+                  },
+                  "workplaceType": "remote",
+                  "salary": {
+                    "min": 12500,
+                    "max": 20000,
+                    "currency": "INR",
+                    "period": "month"
+                  },
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://internshala.com/internship/detail/work-from-home-python-development-internship-at-amrata1788932289",
+                  "source": "internshala",
+                  "postedAt": "2026-09-09T00:00:00.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                },
+                {
+                  "id": "9039",
+                  "title": "Junior+ Backend Developer (Go/Python)",
+                  "company": {
+                    "name": "Phoenixgame",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": null,
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "remote",
+                  "salary": null,
+                  "employmentType": null,
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://djinni.co/jobs/845271-junior-backend-developer-go-python/",
+                  "source": "djinni",
+                  "postedAt": "2026-09-08T10:09:12.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                },
+                {
+                  "id": "33312",
+                  "title": "Python Development",
+                  "company": {
+                    "name": "Qubixo",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Bengaluru",
+                    "state": "Karnataka",
+                    "country": "IN"
+                  },
+                  "workplaceType": "remote",
+                  "salary": {
+                    "min": 10000,
+                    "max": 20000,
+                    "currency": "INR",
+                    "period": "month"
+                  },
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://internshala.com/internship/detail/work-from-home-python-development-internship-at-qubixo1788845768",
+                  "source": "internshala",
+                  "postedAt": "2026-09-08T00:00:00.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                },
+                {
+                  "id": "31414",
+                  "title": "Python Development",
+                  "company": {
+                    "name": "Queens Of Change Foundation",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Delhi",
+                    "state": "Delhi",
+                    "country": "IN"
+                  },
+                  "workplaceType": "remote",
+                  "salary": null,
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://internshala.com/internship/detail/work-from-home-python-development-internship-at-queens-of-change-foundation1788869817",
+                  "source": "internshala",
+                  "postedAt": "2026-09-08T00:00:00.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                },
+                {
+                  "id": "31376",
+                  "title": "Python Development",
+                  "company": {
+                    "name": "Women First India Foundation",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Delhi",
+                    "state": "Delhi",
+                    "country": "IN"
+                  },
+                  "workplaceType": "remote",
+                  "salary": null,
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://internshala.com/internship/detail/work-from-home-python-development-internship-at-women-first-india-foundation1788870533",
+                  "source": "internshala",
+                  "postedAt": "2026-09-08T00:00:00.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                },
+                {
+                  "id": "2035",
+                  "title": "Junior Software Engineer (Flutter/Python)",
+                  "company": {
+                    "name": "Bloom Future",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Heilbronn",
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": null,
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://www.arbeitnow.com/jobs/companies/bloom-future/junior-software-engineer-flutter-python-heilbronn-349262",
+                  "source": "arbeitnow",
+                  "postedAt": "2026-09-07T23:47:33.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                },
+                {
+                  "id": "59447",
+                  "title": "Junior Software Developer - Python",
+                  "company": {
+                    "name": "WSP",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Bengaluru",
+                    "state": "Karnataka",
+                    "country": "IN"
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": null,
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://emit.fa.ca3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_2001/job/94658",
+                  "source": "oracle",
+                  "postedAt": "2026-09-07T00:00:00.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                },
+                {
+                  "id": "49601",
+                  "title": "Junior Software Developer - Python",
+                  "company": {
+                    "name": "WSP in Africa",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Bengaluru",
+                    "state": "Karnataka",
+                    "country": "IN"
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": null,
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://emit.fa.ca3.oraclecloud.com/hcmUI/CandidateExperience/en/sites/jobsearch/job/94658",
+                  "source": "oracle",
+                  "postedAt": "2026-09-07T00:00:00.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                },
+                {
+                  "id": "16421",
+                  "title": "Campus Python Software Engineer (Intern)",
+                  "company": {
+                    "name": "Jump Trading",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Shanghai",
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://www.jumptrading.com/hr/job?gh_jid=8027923",
+                  "source": "jobstash",
+                  "postedAt": "2026-09-04T03:08:32.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                },
+                {
+                  "id": "31873",
+                  "title": "Python Development",
+                  "company": {
+                    "name": "Pledge India Foundation",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Delhi",
+                    "state": "Delhi",
+                    "country": "IN"
+                  },
+                  "workplaceType": "remote",
+                  "salary": null,
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://internshala.com/internship/detail/work-from-home-python-development-internship-at-pledge-india-foundation1788520059",
+                  "source": "internshala",
+                  "postedAt": "2026-09-04T00:00:00.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                },
+                {
+                  "id": "28315",
+                  "title": "Python API Backend Development (Graduates/Postgraduates Only)",
+                  "company": {
+                    "name": "SIRPI Products & Services Private Limited",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Bangalore",
+                    "state": "Karnataka",
+                    "country": "IN"
+                  },
+                  "workplaceType": "onsite",
+                  "salary": {
+                    "min": 14999,
+                    "max": 15000,
+                    "currency": "INR",
+                    "period": "month"
+                  },
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://internshala.com/internship/detail/python-api-backend-development-graduates-postgraduates-only-internship-in-bangalore-at-sirpi-products-services-private-limited1788496967",
+                  "source": "internshala",
+                  "postedAt": "2026-09-04T00:00:00.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                },
+                {
+                  "id": "31898",
+                  "title": "Python Development",
+                  "company": {
+                    "name": "Basti Ki Pathshala Foundation",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Noida",
+                    "state": "Delhi",
+                    "country": "IN"
+                  },
+                  "workplaceType": "remote",
+                  "salary": null,
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://internshala.com/internship/detail/work-from-home-python-development-internship-at-basti-ki-pathshala-foundation1788437845",
+                  "source": "internshala",
+                  "postedAt": "2026-09-03T00:00:00.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                },
+                {
+                  "id": "31888",
+                  "title": "Python Development",
+                  "company": {
+                    "name": "NayePankh Foundation",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Delhi",
+                    "state": "Delhi",
+                    "country": "IN"
+                  },
+                  "workplaceType": "remote",
+                  "salary": null,
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://internshala.com/internship/detail/work-from-home-python-development-internship-at-nayepankh-foundation1788436329",
+                  "source": "internshala",
+                  "postedAt": "2026-09-03T00:00:00.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                },
+                {
+                  "id": "11413",
+                  "title": "Software Engineering Internship (C++ or Python) – Summer 2027",
+                  "company": {
+                    "name": "Hudson River Trading",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Austin",
+                    "state": "TX",
+                    "country": "US"
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://www.hudsonrivertrading.com/careers/job/?gh_jid=8052083",
+                  "source": "greenhouse",
+                  "postedAt": "2026-09-02T22:52:51.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                },
+                {
+                  "id": "9216",
+                  "title": "Junior/Strong Junior Python Developer",
+                  "company": {
+                    "name": "Ajax Systems",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": null,
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": null,
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://djinni.co/jobs/845735-junior-strong-junior-python-developer/",
+                  "source": "djinni",
+                  "postedAt": "2026-08-31T16:42:30.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                },
+                {
+                  "id": "42928",
+                  "title": "Junior/Strong Junior Python Developer",
+                  "company": {
+                    "name": "Ajax Systems",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Kyiv",
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "onsite",
+                  "salary": null,
+                  "employmentType": "full_time",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://jobs.lever.co/ajax/affaedb5-3087-4f52-8758-20b49e77516c",
+                  "source": "lever",
+                  "postedAt": "2026-08-31T12:05:52.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                },
+                {
+                  "id": "32020",
+                  "title": "Python Development",
+                  "company": {
+                    "name": "Aeonaxy Technologies Private Limited",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Gurgaon",
+                    "state": "Haryana",
+                    "country": "IN"
+                  },
+                  "workplaceType": "remote",
+                  "salary": null,
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://internshala.com/internship/detail/work-from-home-python-development-internship-at-aeonaxy-technologies-private-limited1788071168",
+                  "source": "internshala",
+                  "postedAt": "2026-08-30T00:00:00.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                },
+                {
+                  "id": "34851",
+                  "title": "Python Development",
+                  "company": {
+                    "name": "Optimasys",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": "Bangalore",
+                    "state": "Karnataka",
+                    "country": "IN"
+                  },
+                  "workplaceType": "remote",
+                  "salary": {
+                    "min": 10000,
+                    "max": 20000,
+                    "currency": "INR",
+                    "period": "month"
+                  },
+                  "employmentType": "internship",
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://internshala.com/internship/detail/work-from-home-python-development-internship-at-optimasys1787901030",
+                  "source": "internshala",
+                  "postedAt": "2026-08-28T00:00:00.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                },
+                {
+                  "id": "9102",
+                  "title": "Junior Python Software Engineer",
+                  "company": {
+                    "name": "Keymakr",
+                    "domain": null
+                  },
+                  "location": {
+                    "city": null,
+                    "state": null,
+                    "country": null
+                  },
+                  "workplaceType": "remote",
+                  "salary": null,
+                  "employmentType": null,
+                  "experienceYearsMin": null,
+                  "primaryUrl": "https://djinni.co/jobs/764691-junior-python-software-engineer/",
+                  "source": "djinni",
+                  "postedAt": "2026-08-26T15:24:06.000Z",
+                  "applied": false,
+                  "bookmarked": false
+                }
+              ],
+              "total": 41,
+              "limit": 20,
+              "offset": 0
+            }
+          }
 
 docs: Returns { jobs, total, limit, offset }. Each job carries applied / bookmarked for the caller. status = active only; seniority is never returned.

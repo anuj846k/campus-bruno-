@@ -2,6 +2,17 @@ opencollection: 1.0.0
 
 info:
   name: CampusMesh — Jobs service
+config:
+  proxy:
+    inherit: true
+    config:
+      protocol: http
+      hostname: ""
+      port: ""
+      auth:
+        username: ""
+        password: ""
+      bypassProxy: ""
 
 request:
   auth:
@@ -11,9 +22,9 @@ request:
     - name: env
       value: local
     - name: baseUrl
-      value: ""
+      value: http://localhost:5020/local
     - name: accessToken
-      value: ""
+      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMyIsImNhbXB1c19hZG1pbl9pZCI6MywiaW5zdGl0dXRpb25faWQiOjMsInJvbGUiOiJDQU1QVVNfQURNSU4iLCJlbWFpbCI6ImtzaGl0aWpha2Fyc2hAZ21haWwuY29tIiwiaWF0IjoxNzg4NTM3MTczLCJleHAiOjE3ODkxNDE5NzN9.5YGMPvtCq-WBu0y_XaqmGEZQlCvL_JZoOoVoLbQhW5w
     - name: jobId
       value: "1"
   scripts:
